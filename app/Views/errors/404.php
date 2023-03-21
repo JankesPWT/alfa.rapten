@@ -1,0 +1,1 @@
+404 - nic tu nie ma mordo!
