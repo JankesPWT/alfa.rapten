@@ -14,25 +14,28 @@ class App
 {
     private Request $request;
     protected Config $config;
-    // private static DB $db;
+    private static DB $db;
+    protected $router;
 
-    public function __construct()
+    public function __construct($router, $env)
     {
+        $this->config = new Config($env);
+        $this->router = $router;
         $this->request = new Request();
-        // static::$db = new DB($config->db ?? []);
+        static::$db = new DB($this->config->db ?? []);
     }
 
-    // public static function db(): DB
-    // {
-    //     return static::$db;
-    // }
+    public static function db(): DB
+    {
+        return static::$db;
+    }
 
-    public function run($dispatcher)
+    public function run()
     {
         $method = $this->request->getMethod();
         $uri = $this->request->getUrl();
 
-        $router = $dispatcher->dispatch($method, $uri);
+        $router = $this->router->dispatch($method, $uri);
 
         if ($router[0] === FastRoute\Dispatcher::FOUND) {
             $handler = $router[1];
@@ -43,7 +46,6 @@ class App
             echo $controller->$action($params);
 
         } else if ($router[0] === FastRoute\Dispatcher::NOT_FOUND) {
-            //header('HTTP/1.1 404 Not Found');
             http_response_code(404);
             
             echo View::make('errors/404');

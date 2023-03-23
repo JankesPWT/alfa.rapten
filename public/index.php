@@ -23,5 +23,9 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     //$r->get('/user/{id:\d+}[/{title}]', 'get_article_handler'); // The /{title} suffix is optional
 });
 
-$app = new App;
-$app->run($dispatcher);
+$app = new App(
+    router: $dispatcher,
+    env: $_ENV
+);
+
+$app->run();

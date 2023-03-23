@@ -1,7 +1,7 @@
 <div class="index">
 
 <?php
-    include_once("../app/views/components/alpha.php");
+    //include_once("../app/views/components/alpha.php");
 ?>
 
     <div class="index-pos"><a href="/artist/show/id/5794/" name="Kaz Bałagane"><img src="/images/icons/artist.png" alt="Kaz Bałagane" name="Kaz Bałagane">Kaz Bałagane</a></div>
