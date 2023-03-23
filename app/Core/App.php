@@ -13,6 +13,7 @@ use FastRoute;
 class App
 {
     private Request $request;
+    private Response $response;
     protected Config $config;
     private static DB $db;
     protected $router;
@@ -22,6 +23,7 @@ class App
         $this->config = new Config($env);
         $this->router = $router;
         $this->request = new Request();
+        $this->response = new Response();
         static::$db = new DB($this->config->db ?? []);
     }
 
@@ -46,8 +48,8 @@ class App
             echo $controller->$action($params);
 
         } else if ($router[0] === FastRoute\Dispatcher::NOT_FOUND) {
-            http_response_code(404);
-            
+            $this->response->statusCode(404);
+           
             echo View::make('errors/404');
         }
     }
