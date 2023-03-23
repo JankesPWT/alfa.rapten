@@ -2,10 +2,9 @@
 
 namespace App\Exceptions;
 
-class ViewNotFoundException extends \Exception
+class RouteNotFoundException extends \Exception
 {
-    protected $message = 'widoku ni ma';
-    protected $code = 404;
+    protected $message = '404 ni ma';
     
     public function __construct()
     {
