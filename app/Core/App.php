@@ -15,7 +15,7 @@ class App
     private Request $request;
     private Response $response;
     protected Config $config;
-    private static DB $db;
+    public static DB $db;
     protected $router;
 
     public function __construct($router, $env)
