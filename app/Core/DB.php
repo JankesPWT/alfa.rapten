@@ -23,6 +23,7 @@ class DB
                 $config['pass'],
                 $config['options'] ?? $defaultOptions
             );
+            $this->pdo->exec("SET NAMES 'utf8'");
 
         } catch (\PDOException $e) {
             throw new \PDOException($e->getMessage(), $e->getCode());
