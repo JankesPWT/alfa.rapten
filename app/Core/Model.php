@@ -6,61 +6,56 @@ namespace App\Core;
 
 use App\Core\DB;
 
-/**
- * Summary of Model
- * @author Jacek Jankes Polit <jankes@jankes.com.pl>
- * @copyright (c) $CURRENT_YEAR
- * @package
- */
 abstract class Model
 {
-    public static DB $db;
+    public DB $db;
 
     public function __construct()
     {
-        static::$db = App::$db;
+        $this->db = App::$db;     
     }
 
     abstract static public function tableName(): string;
     abstract static public function primaryKey(): string;
 
-    public function findAll(): array
+    public function findAll(): ?array
     {
         //przenieść LIMIT do argumentu metody
         $tableName = static::tableName(); 
 
         $sql = "SELECT * FROM {$tableName} LIMIT 13";
-        $stmt = self::$db->prepare($sql);
+        $stmt = $this->db->prepare($sql);
         $stmt->execute();
-        return $stmt->fetchAll();
+        return $stmt->fetchAll() ?: false;
     }
 
-    public static function findOne(int $id): ?array
+    public function findOne(int $id): ?array
     {
         $tableName = static::tableName();
+        $primaryKey = static::primaryKey();
 
-        $sql = "SELECT * FROM {$tableName} WHERE id = :id";
-        $stmt = static::db->prepare($sql);
-        $stmt->execute(['id' => $id]);
-        return $stmt->fetch() ?: null;
+        $sql = "SELECT * FROM {$tableName} WHERE {$primaryKey} = :id";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(":id", $id);
+        $stmt->execute();
+        return $stmt->fetch() ?: false;
     }
 
     #from codeholic MVC Framework
-    public function findAllWhere($where) // ['email' => 'jankes@jankes.com.pl', 'firstname' => 'Jacek']
+    public function findAllWhere($where): ?array // ['email' => 'jankes@jankes.com.pl', 'firstname' => 'Jacek']
     {
         $tableName = static::tableName();
         $attributes = array_keys($where);
         
         $sql = implode(" AND ", array_map(fn ($attr) => "$attr = :$attr", $attributes));
-        $stmt = self::prepare("SELECT * FROM $tableName WHERE $sql");
+        $stmt = $this->db->prepare("SELECT * FROM $tableName WHERE $sql");
         // SELECT * FROM $tableName WHERE email = :email AND firstname = :firstname
         foreach ($where as $key => $item) {
             $stmt->bindValue(":$key", $item);
         }
         $stmt->execute();
-        return $stmt->fetchAll();
+        return $stmt->fetchAll() ?: false;
     }
-
 
     public function save(array $data): bool
     {
@@ -97,8 +92,8 @@ abstract class Model
     }
     */
 
-    public static function prepare($sql)
+    public function prepare($sql)
     {
-        return self::$db->prepare($sql);
+        return $this->db->prepare($sql);
     }
 }
