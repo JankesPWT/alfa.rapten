@@ -1,3 +1,13 @@
+<?php
+/** @var $params */
+echo '<pre>';
+print_r($artist);
+echo'</pre>';
+
+echo $artist['ksywa'];
+
+?>
+
 <div id="show">
     <div class="show-foto">
         <img src="/images/icons/artist.png" alt="no cover">

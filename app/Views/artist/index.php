@@ -1,3 +1,14 @@
+<?php
+/** @var $params */
+echo '<pre>';
+//print_r($artists);
+echo'</pre>';
+
+foreach ($artists as $artist) {
+    echo $artist['ksywa'] . ' | ';
+}
+?>
+
 <div class="index">
 
 <?php
