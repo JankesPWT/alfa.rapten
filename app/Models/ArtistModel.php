@@ -32,17 +32,20 @@ class ArtistModel extends Model
         return 'artist_id';
     }
     
-    public function getById(int $id)
-    {
-        $sql = "SELECT * FROM users WHERE id = :id LIMIT 1";
-        $params = ['id' => $id];
-        $result = $this->db->query($sql, $params);
-        return $result ? $result[0] : null;
-    }
-
     public function getAll()//: object
     {
         return parent::findAll();
+    }
+
+    public function getById(int $id)
+    {
+        return parent::findOne($id);
+    }
+
+    public function getByKsywa(string $ksywa)
+    {
+        $where = ['ksywa' => "$ksywa"];
+        return parent::findAllWhere($where);
     }
 
     /*
