@@ -26,7 +26,7 @@ abstract class Model
         $sql = "SELECT * FROM {$tableName} LIMIT 13";
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
-        return $stmt->fetchAll() ?: false;
+        return $stmt->fetchAll() ?: null;
     }
 
     public function findOne(int $id): ?array
@@ -38,7 +38,7 @@ abstract class Model
         $stmt = $this->db->prepare($sql);
         $stmt->bindValue(":id", $id);
         $stmt->execute();
-        return $stmt->fetch() ?: false;
+        return $stmt->fetch() ?: null;
     }
 
     #from codeholic MVC Framework
@@ -54,7 +54,7 @@ abstract class Model
             $stmt->bindValue(":$key", $item);
         }
         $stmt->execute();
-        return $stmt->fetchAll() ?: false;
+        return $stmt->fetchAll() ?: null;
     }
 
     public function save(array $data): bool
