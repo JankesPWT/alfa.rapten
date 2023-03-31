@@ -5,61 +5,29 @@ declare(strict_types=1);
 namespace App\Core;
 
 use App\Exceptions\ViewNotFoundException;
+use Twig\Loader\FilesystemLoader;
+use Twig\Environment;
 
 class View
 {
-    public function __construct(
-        protected string $view, 
-        protected array $params = [] 
-        )
+    public static Environment $twig;
+
+    public static function make(string $view, array $data = [])
     {
-        # code...
+        $view = $view . ".php";
+        return static::render($view, $data);
     }
 
-    public static function make(string $view, array $params = []): static
+    public static function render(string $view, array $data = []): void
     {
-        return new static($view, $params);
-    }
-
-    public function render(): string
-    {
-        $viewPath = VIEW_PATH . '/' . $this->view . '.php';
-
-        if (! file_exists($viewPath)) {
-            throw new ViewNotFoundException;
-        }
-
-        // foreach ($this->params as $key => $value) {
-        //     $$key = $value;
-        // }
-        extract($this->params);
+        $loader = new FilesystemLoader(dirname(__DIR__) . '/Views');
+        self::$twig = new Environment($loader);
         
-        ob_start();
-        include $viewPath;
-
-        return ob_get_clean();
-    }
-
-    // public static function renderWithTwig($template, $args = [])
-    // {
-    //     static $twig = null;
-
-    //     if ($twig === null) {
-    //         $loader = new \Twig\Loader\FilesystemLoader(dirname(__DIR__) . '/App/Views');
-    //         $twig = new \Twig\Environment($loader);
-    //     }
-
-    //     echo $twig->render($template, $args);
-    // }
-
-    public function __toString(): string
-    {
-        return $this->render();
+        echo self::$twig->render($view, $data);
     }
 
     public function __get(string $name)
     {
-        return $this->params[$name] ?? null;
+        return $this->data[$name] ?? null;
     }
-    
 }

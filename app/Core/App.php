@@ -50,7 +50,7 @@ class App
         } else if ($router[0] === FastRoute\Dispatcher::NOT_FOUND) {
             $this->response->statusCode(404);
            
-            echo View::make('errors/404');
+            View::make('errors/404');
         }
     }
 }
