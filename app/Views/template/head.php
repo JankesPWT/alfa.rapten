@@ -2,7 +2,13 @@
 <html lang="pl-PL">
     <head>
 
-        <title>Alfa.rapten</title>
+        <title>
+            {% if title is empty %}
+                Rapten.pl
+            {% else %}
+                {{ title }}
+            {% endif %}
+        </title>
             
         <!-- meta tagi !-->
         <meta charset="UTF-8" />

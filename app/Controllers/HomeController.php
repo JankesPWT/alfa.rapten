@@ -10,8 +10,6 @@ class HomeController
 {
     public function index($vars)
     {
-
-        return View::make('index');
+        View::make('index');
     }
-
 }
