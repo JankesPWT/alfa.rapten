@@ -21,7 +21,13 @@ class View
     public static function render(string $view, array $data = []): void
     {
         $loader = new FilesystemLoader(dirname(__DIR__) . '/Views');
-        self::$twig = new Environment($loader);
+        //self::$twig = new Environment($loader);
+        
+        # WYŁĄCZYĆ DEBUG NA PRODUKCJI, odkomentować góre i wywalić 2 dolne linijki
+        self::$twig = new Environment($loader, [
+            'debug' => true,
+        ]);
+        self::$twig->addExtension(new \Twig\Extension\DebugExtension());
         
         echo self::$twig->render($view, $data);
     }
