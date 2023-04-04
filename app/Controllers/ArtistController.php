@@ -5,21 +5,21 @@ declare(strict_types=1);
 namespace App\Controllers;
 
 use App\Core\View;
-use App\Models\ArtistModel;
+use App\Models\Artist;
 
 class ArtistController
 {
-    private ArtistModel $artists;
+    private Artist $artists;
 
     public function __construct()
     {
-        $this->artists = new ArtistModel;
+        $this->artists = new Artist;
     }
 
     public function index($vars)// : View
     {
         //print_r($vars);
-        $artistModel = new ArtistModel();
+        $artistModel = new Artist();
         
         $artists = $artistModel->findAll();
 
@@ -29,7 +29,7 @@ class ArtistController
     public function show($vars)
     {
         $id = (int)$vars['id'];
-        $artistModel = new ArtistModel();
+        $artistModel = new Artist();
         
         $artist = $artistModel->findOne($id);
 

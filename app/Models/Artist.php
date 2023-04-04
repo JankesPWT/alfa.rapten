@@ -4,7 +4,7 @@ namespace App\Models;
 
 use App\Core\Model;
 
-class ArtistModel extends Model
+class Artist extends Model
 {
     private int $artist_id;
     private string $ksywa;
