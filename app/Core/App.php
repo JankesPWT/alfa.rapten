@@ -11,6 +11,10 @@ use App\Exceptions\RouteNotFoundException;
 use Dotenv\Dotenv;
 use FastRoute;
 
+use Illuminate\Container\Container;
+use Illuminate\Database\Capsule\Manager as Capsule;
+use Illuminate\Events\Dispatcher;
+
 class App
 {
     private Request $request;
@@ -26,20 +30,31 @@ class App
         $this->response = new Response();
     }
 
-    public static function db(): DB
+    // public static function db(): DB
+    // {
+    //     return static::$db;
+    // }
+    
+    public function initDb(array $config)
     {
-        return static::$db;
+        $capsule = new Capsule();
+
+        $capsule->addConnection($config);
+        $capsule->setEventDispatcher(new Dispatcher(new Container));
+        $capsule->setAsGlobal();
+        $capsule->bootEloquent();
     }
 
     public function boot(): static
     {
-        echo __DIR__;
         $dotenv = Dotenv::createImmutable(dirname(__DIR__ . '/../../..'));
         $dotenv->load();
 
         $this->config = new Config($_ENV);
 
-        static::$db = new DB($this->config->db ?? []);
+        $this->initDb($this->config->db);
+
+        //static::$db = new DB($this->config->db ?? []);
 
         // $this->container->set(PaymentGatewayServiceInterface::class, PaymentGatewayService::class);
         // $this->container->set(MailerInterface::class, fn() => new CustomMailer($this->config->mailer['dsn']));
