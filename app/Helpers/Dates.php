@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Helpers;
+use Carbon\Carbon;
 
 class Dates 
 {
@@ -16,10 +17,13 @@ class Dates
     # jeśli jest powyżej 1000, zwraca 'x'
     public static function age($date) : ?string
     {
+        //$howOldAmI = Carbon::createFromDate(1975, 5, 21)->age;
+        
         $do = new \DateTime('now');
         $od = new \DateTime($date);
-
+        
         $interval = $do->diff($od);
+        
         
         $age = $interval->format('%y');
         if ($age > 1000) $age = "x";

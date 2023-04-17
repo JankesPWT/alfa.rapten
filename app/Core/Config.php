@@ -17,7 +17,7 @@ class Config
                 'password'  => $env['DB_PASS'],
                 'database'  => $env['DB_DATABASE'],
                 'driver'    => $env['DB_DRIVER'] ?? 'mysql',
-                'charset'   => 'utf8mb4',
+                'charset'   => 'utf8',
                 'collation' => 'utf8_polish_ci',
                 'prefix'    => '',
             ],
