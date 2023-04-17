@@ -31,13 +31,13 @@ class Artist extends Model
     {
         return 'artist_id';
     }
-    
-    public function getAll()//: object
+
+    public function getAll(): ?array
     {
         return parent::findAll();
     }
 
-    public function getById(int $id)
+    public function getById(int $id): array
     {
         return parent::findOne($id);
     }
@@ -79,4 +79,25 @@ class Artist extends Model
         return $this->db->execute($sql, $params);
     }
     */
+    
+    public static function allFields(): array
+    {
+        return [
+            'artist_id',
+            'ksywa',
+            'imie',
+            'nazwisko',
+            'miasto',
+            'dob',
+            'bio',
+            'aka',
+            'strona',
+            'facebook',
+            'youtube',
+            'image',
+            'status',
+            'data_dod',
+            'datownik',
+        ];
+    }  
 }

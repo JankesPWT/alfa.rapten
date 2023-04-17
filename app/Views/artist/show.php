@@ -1,40 +1,40 @@
-<?php
-/** @var $params */
-echo '<pre>';
-print_r($artist);
-echo'</pre>';
+{% extends 'template/base.php' %}
 
-echo $artist['ksywa'];
+{% block title %}Wykonawcy | Rapten.pl{% endblock %}
 
-?>
+{% block main %}
+
+{{ artist.artist_id }}
+{{ artist.ksywa }}
+{{ dump(artist) }}
 
 <div id="show">
     <div class="show-foto">
         <img src="/images/icons/artist.png" alt="no cover">
         <div class="show-propshejt">
             <div class="show-props">
-                <a class="show-props-link" href="/artist/show/id/1/option/props/"></a>
+                <a class="show-props-link" href="/artist/{{ artist.artist_id }}/props/"></a>
                 <div>4</div>
             </div>
             <div class="show-hejt">
-                <a class="show-hejt-link" href="/artist/show/id/1/option/hejt/"></a>
+                <a class="show-hejt-link" href="/artist/{{ artist.artist_id }}/hejt/"></a>
                 <div>0</div>
             </div>
         </div>
     </div>
     <div class="show-dane">
         <div class="show-ksywa">
-            <h1>Jankes</h1>
+            <h1>{{ artist.ksywa }}</h1>
         </div>
         <table class="show-table">
             <tbody>
                 <tr>
                     <td class="show-table-label">Imię i nazwisko:</td>
-                    <td class="show-table-data"><strong>Jacek Polit</strong></td>
+                    <td class="show-table-data"><strong>{{ artist.imie }}{{ artist.nazwisko }}</strong></td>
                 </tr>
                 <tr>
                     <td class="show-table-label">Data urodzenia:</td>
-                    <td class="show-table-data">1987-02-05 (35)</td>
+                    <td class="show-table-data">{{ artist.dob }} (35)</td>
                 </tr>
                 <tr>
                     <td class="show-table-label">Miasto:</td>
@@ -188,3 +188,5 @@ Donec sollicitudin viverra felis, id sagittis arcu sagittis sed. Aenean aliquet 
         $(".togglediv_label").toggle("slow");
     });*/
 </script>
+
+{% endblock %}

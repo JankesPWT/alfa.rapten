@@ -17,7 +17,7 @@ class Helpers
         echo '</pre>';
     }
     
-    public function magic()
+    public static function magic()
     {
         echo "DIR: " . __DIR__;
         echo '<br>';

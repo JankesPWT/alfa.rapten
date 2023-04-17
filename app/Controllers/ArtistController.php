@@ -6,6 +6,7 @@ namespace App\Controllers;
 
 use App\Core\View;
 use App\Models\Artist;
+use App\Helpers\Dates;
 
 class ArtistController
 {
@@ -20,8 +21,8 @@ class ArtistController
     {
         //print_r($vars);
         $artistModel = new Artist();
-        
         $artists = $artistModel->findAll();
+        
 
         return View::make('artist/index', ['artists' => $artists]);
     }
@@ -32,6 +33,7 @@ class ArtistController
         $artistModel = new Artist();
         
         $artist = $artistModel->findOne($id);
+        $age = Dates::age($artist['dob']);
 
         if (!$artist) {
             View::make('errors/404');

@@ -17,6 +17,7 @@ abstract class Model
 
     abstract static public function tableName(): string;
     abstract static public function primaryKey(): string;
+    abstract static public function allFields(): array;
 
     public function findAll(): ?array
     {
