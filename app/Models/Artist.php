@@ -2,102 +2,35 @@
 
 namespace App\Models;
 
-use App\Core\Model;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Collection;
+
+
+/**
+ * @property int           $artis_id
+ * @property string        $ksywa
+ * @property string        $imie
+ * @property string        $nazwisko
+ * @property string        $miasto
+ * @property string        $dob
+ * @property string        $bio
+ * @property string        $aka
+ * @property string        $strona
+ * @property string        $facebook
+ * @property string        $youtube
+ * @property int           $image
+ * @property int           $status
+ * @property Carbon        $data_dod
+ * @property Carbon        $datownik
+ *
+ * @property-read Collection $items
+ */
 
 class Artist extends Model
 {
-    private int $artist_id;
-    private string $ksywa;
-    private string $imie;
-    private string $nazwisko;
-    private string $miasto;
-    private string $dob;
-    private string $bio;
-    private string $aka;
-    private string $strona;
-    private string $facebook;
-    private string $youtube;
-    private string $image;
-    private string $status;
-    private string $data_dod;
-    private string $datownik;
 
-    public static function tableName(): string 
-    {
-        return 'artist';
-    }
-
-    public static function primaryKey(): string 
-    {
-        return 'artist_id';
-    }
-
-    public function getAll(): ?array
-    {
-        return parent::findAll();
-    }
-
-    public function getById(int $id): array
-    {
-        return parent::findOne($id);
-    }
-
-    public function getByKsywa(string $ksywa)
-    {
-        $where = ['ksywa' => "$ksywa"];
-        return parent::findAllWhere($where);
-    }
-
-    /*
-    public function create(array $data)
-    {
-        $sql = "INSERT INTO users (name, email, password) VALUES (:name, :email, :password)";
-        $params = [
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => $data['password']
-        ];
-        return $this->db->execute($sql, $params);
-    }
+    protected $table = 'artist';
+    protected $primaryKey = 'artist_id';
     
-    public function update(int $id, array $data)
-    {
-        $sql = "UPDATE users SET name = :name, email = :email, password = :password WHERE id = :id";
-        $params = [
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => $data['password'],
-            'id' => $id
-        ];
-        return $this->db->execute($sql, $params);
-    }
-
-    public function delete(int $id)
-    {
-        $sql = "DELETE FROM users WHERE id = :id";
-        $params = ['id' => $id];
-        return $this->db->execute($sql, $params);
-    }
-    */
-    
-    public static function allFields(): array
-    {
-        return [
-            'artist_id',
-            'ksywa',
-            'imie',
-            'nazwisko',
-            'miasto',
-            'dob',
-            'bio',
-            'aka',
-            'strona',
-            'facebook',
-            'youtube',
-            'image',
-            'status',
-            'data_dod',
-            'datownik',
-        ];
-    }  
 }

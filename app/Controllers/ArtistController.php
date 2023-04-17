@@ -10,36 +10,33 @@ use App\Helpers\Dates;
 
 class ArtistController
 {
-    private Artist $artists;
-
-    public function __construct()
-    {
-        $this->artists = new Artist;
-    }
 
     public function index($vars)// : View
     {
         //print_r($vars);
-        $artistModel = new Artist();
-        $artists = $artistModel->findAll();
+        $artists = Artist::get()
+                         ->take(30);
         
-
         return View::make('artist/index', ['artists' => $artists]);
     }
 
     public function show($vars)
     {
         $id = (int)$vars['id'];
-        $artistModel = new Artist();
+                
+        $artist = Artist::where('artist_id', $id)
+                        ->get()
+                        ->first()
+                        ->toArray();
         
-        $artist = $artistModel->findOne($id);
         $age = Dates::age($artist['dob']);
+
+        $artist['age'] = $age;
 
         if (!$artist) {
             View::make('errors/404');
             return;
         }
-
         return View::make('artist/show', ['artist' => $artist]);
     }
 
