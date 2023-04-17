@@ -6,11 +6,7 @@ use App\Core\App;
 use App\Controllers\HomeController;
 use App\Controllers\ArtistController;
 
-/* DOTENV */
-$dotenv = \Dotenv\Dotenv::createImmutable(dirname(__DIR__));
-$dotenv->load();
-
-/* CONSTANS */
+/* CONSTANTS */
 define('VIEW_PATH', __DIR__ . '/../app/Views');
 
 /* ROUTER */
@@ -24,8 +20,7 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
 });
 
 $app = new App(
-    router: $dispatcher,
-    env: $_ENV
+    router: $dispatcher
 );
-
-$app->run();
+$app->boot()
+    ->run();
