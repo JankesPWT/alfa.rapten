@@ -8,18 +8,17 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
+
+
 /**
- * @property int           $artist_id
- * @property string        $ksywa
- * @property string        $imie
- * @property string        $nazwisko
+ * @property int           $squad_id
+ * @property string        $nazwa
  * @property string        $miasto
- * @property string        $dob
- * @property string        $bio
- * @property string        $aka
+ * @property string        $est_date
  * @property string        $strona
  * @property string        $facebook
  * @property string        $youtube
+ * @property string        $info
  * @property int           $image
  * @property int           $status
  * @property Carbon        $data_dod
@@ -28,11 +27,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property-read Collection $items
  */
 
-class Artist extends Model
+class Squad extends Model
 {
 
-    protected $table = 'artist';
-    protected $primaryKey = 'artist_id';
+    protected $table = 'squad';
+    protected $primaryKey = 'squad_id';
     const CREATED_AT = 'data_dod';
     const UPDATED_AT = 'datownik';
 
@@ -40,22 +39,14 @@ class Artist extends Model
         'data_dod' => 'datetime:Y-m-d H:m:s',
         'datownik' => 'datetime:Y-m-d H:m:s',
     ];
-
-    public function squads(): BelongsToMany
+    
+    public function artists(): BelongsToMany
     {
-        return $this->belongsToMany(Squad::class, 'art_squad', 'artist_id', 'squad_id', 'artist_id', 'squad_id');
+        return $this->belongsToMany(Artist::class, 'art_squad', 'squad_id', 'artist_id', 'squad_id', 'artist_id');
     }
 
     public function albums(): HasMany
     {
-        return $this->hasMany(Album::class, 'artist_id');
-    }
-    
-    public static function getMixtapes($id)
-    {
-        return Artist::find($id)
-                     ->albums
-                     ->where('typ', 'mixtape')
-                     ->toArray();
+        return $this->hasMany(Album::class, 'squad_id');
     }
 }
