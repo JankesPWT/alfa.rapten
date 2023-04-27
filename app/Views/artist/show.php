@@ -4,10 +4,11 @@
 
 {% block main %}
 
-{{ artist.artist_id }}
-{{ artist.ksywa }}
-{{ dump(artist) }}
 
+{# {{ dump(artist.squads) }} #}
+{# {{ dump(albums) }} #}
+
+<!-- INFO -->
 <div id="show">
     <div class="show-foto">
         <img src="/images/icons/artist.png" alt="no cover">
@@ -24,25 +25,25 @@
     </div>
     <div class="show-dane">
         <div class="show-ksywa">
-            <h1>{{ artist.ksywa }}</h1>
+            <h1>{{ artist.ksywa|e }}</h1>
         </div>
         <table class="show-table">
             <tbody>
                 <tr>
                     <td class="show-table-label">Imię i nazwisko:</td>
-                    <td class="show-table-data"><strong>{{ artist.imie }}{{ artist.nazwisko }}</strong></td>
+                    <td class="show-table-data"><strong>{{ artist.imie|e }} {{ artist.nazwisko|e }}</strong></td>
                 </tr>
                 <tr>
                     <td class="show-table-label">Data urodzenia:</td>
-                    <td class="show-table-data">{{ artist.dob }} (35)</td>
+                    <td class="show-table-data">{{ artist.dob }} ({{ artist.age }})</td>
                 </tr>
                 <tr>
                     <td class="show-table-label">Miasto:</td>
-                    <td class="show-table-data">Gdańsk</td>
+                    <td class="show-table-data">{{ artist.miasto|e }}</td>
                 </tr>
                 <tr>
                     <td class="show-table-label">AKA:</td>
-                    <td class="show-table-data"></td>
+                    <td class="show-table-data">{{ artist.aka|e }}</td>
                 </tr>
                 <tr>
                     <td colspan="2" class="show-table-icons">
@@ -51,78 +52,77 @@
                         <a class="show-icons-yt" target="_blank" href="http://youtube.com/pwtrtv"></a>
                     </td>
                 </tr>
-                <tr>
-                    <td class="show-table-label">Squady:</td>
-                    <td class="show-table-data">
-                        <a href="/squad/show/id/1/">PWT Banda</a>
-                    </td>
-                </tr>
+                
+                <!-- składy -->
+                {% if artist.squads is not empty %}
+
+                    {% for squads in artist.squads %}
+                        <tr>
+                            {% if loop.first %}
+                                <td class="show-table-label">Squady:</td>
+                            {% else %}
+                                <td class="show-table-label"></td>
+                            {% endif %}
+                            <td class="show-table-data">
+                                <a href="/squad/{{ squads.squad_id }}">{{ squads.nazwa|e }}</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    
+                {% endif %}
+                <!-- składy -->
+
             </tbody>
         </table>
     </div>
     <div class="show-edit-link">
-        <a href="/artist/edit/id/1/">edytuj</a>
+        <a href="/artist/edit/{{ artist.artist_id }}">edytuj</a>
     </div>
 </div>
 
 <div id="info">
-    
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam varius pulvinar bibendum. Suspendisse metus metus, lacinia eget mi vel, rutrum lobortis orci. Suspendisse imperdiet id ante at euismod. Sed accumsan quis nisi quis rhoncus. Pellentesque lacinia, justo vitae sodales egestas, libero nisl iaculis purus, nec mollis felis elit sit amet metus. Nam ut augue eget mauris porttitor bibendum. Aliquam malesuada eget leo eu molestie. Curabitur sapien magna, facilisis vel faucibus a, aliquet non quam. Pellentesque in auctor tortor. Aliquam eget dolor semper, pretium tortor nec, tincidunt tellus. Aenean pellentesque ligula a purus molestie, et convallis dui viverra. Morbi lorem nisl, vestibulum ac leo eu, sodales interdum ante. Nulla sit amet tellus tortor. Donec rutrum finibus mi nec dignissim. Fusce vitae sem porttitor, pretium arcu eget, lobortis diam.
-
-Donec sollicitudin viverra felis, id sagittis arcu sagittis sed. Aenean aliquet dui libero, vel ultricies ex consectetur id. Nunc tempus massa non nisl consectetur, vestibulum congue enim congue. Pellentesque porta nibh et ligula dignissim ullamcorper. Ut scelerisque odio ut faucibus varius. Quisque turpis odio, rutrum quis condimentum vitae, vestibulum quis orci. Duis vel justo pulvinar, ultrices erat ac, aliquam ipsum.
-
+{% if artist.bio is empty %}
+    <div class="noinfo">
+        Nie dodano biografii. <a class="dodaj" href="/artist/edit/{{ artist.artist_id }}">Dodaj.</a>
+    </div>
+{% else %}
+    {{ artist.bio|nl2br }}
+{% endif %}
 </div>    
 
-<!-- ALBUMY -->
+<!-- DISCOGRAPHY -->
 <div id="discography">
+    {% if albums is not empty %}
+        
+        <!-- solo -->
+        <div class="type solo">Albumy
+            <a class="toggle_solo">+/-</a>
+        </div>
+
+        <div class="togglediv_solo">
+            {% for album in albums %}
+                <div class="show-discography">
+                    <div class="show-discography-img">
+                        <a href="/album/{{ album.album_id }}">
+                            <img src="http://pwtsoftware/beta.rapten/rapten/images/album/thumbs/5_128.jpg" width="75" alt="Stereo-(I)-Typ">
+                        </a>
+                    </div>
+                    <div class="show-discography-text">
+                        <a href="/album/{{ album.album_id }}"> {{ album.tytul }} </a>
+                        <span class="show-discography-data">{{ album.rel_date }}</span>
+                        {% if album.label is not empty %}
+                            <a class="show-discography-data" href="/label/{{ album.label.label_id }}">{{ album.label.nazwa }}</a>
+                        {% endif %}
+                        <br>
+                        <span class="show-discography-typ">[{{ album.typ }}]</span>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
     
-    <div class="type solo">Solówki
-        <a class="toggle_solo">+/-</a>
-    </div>
-    <div class="togglediv_solo">
-        <div class="show-discography">
-            <div class="show-discography-img">
-                <a href="/album/show/id/5/">
-                    <img src="http://pwtsoftware/beta.rapten/rapten/images/album/thumbs/5_128.jpg" width="75" alt="Stereo-(I)-Typ">
-                </a>
-            </div>
-            <div class="show-discography-text">
-                <a href="/album/show/id/5/">Stereo-(I)-Typ</a>
-                <span class="show-discography-data">2008-05-16</span>
-                <a class="show-discography-data" href="/label/show/id/6/">Prosto-W-Twarz Records</a>
-                <br>
-                <span class="show-discography-typ">[album]</span>
-            </div>
-        </div>
-        <div class="show-discography">
-            <div class="show-discography-img">
-                <a href="/album/show/id/11/">
-                    <img src="http://pwtsoftware/beta.rapten/rapten/images/album/thumbs/11_128.jpg" width="75" alt="BrawaD(L)a Jankesa">
-                </a>
-            </div>
-            <div class="show-discography-text">
-                <a href="/album/show/id/11/">BrawaD(L)a Jankesa</a>
-                <span class="show-discography-data">2007-05-19</span>
-                <a class="show-discography-data" href="/label/show/id/6/">Prosto-W-Twarz Records</a>
-                <br>
-                <span class="show-discography-typ">[album]</span>
-            </div>
-        </div>
-        <div class="show-discography">
-            <div class="show-discography-img">
-                <a href="/album/show/id/9/">
-                    <img src="http://pwtsoftware/beta.rapten/rapten/images/album/thumbs/9_128.jpg" width="75" alt="DEMO-r(E)alizacja">
-                </a>
-            </div>
-            <div class="show-discography-text">
-                <a href="/album/show/id/9/">DEMO-r(E)alizacja</a>
-                <span class="show-discography-data">2006-05-16</span>
-                <a class="show-discography-data" href="/label/show/id/6/">Prosto-W-Twarz Records</a>
-                <br>
-                <span class="show-discography-typ">[album]</span>
-            </div>
-        </div>
-    </div>
+
+
     <div class="type squad">
         Albumy ze składami
         <a class="toggle_solo">+/-</a>

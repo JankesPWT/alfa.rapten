@@ -6,14 +6,16 @@ namespace App\Controllers;
 
 use App\Core\View;
 use App\Models\Artist;
+use App\Models\Album;
+use App\Models\Squad;
+use App\Models\Label;
 use App\Helpers\Dates;
 
 class ArtistController
 {
 
-    public function index($vars)// : View
+    public function index()// : View
     {
-        //print_r($vars);
         $artists = Artist::get()
                          ->take(30);
         
@@ -23,30 +25,47 @@ class ArtistController
     public function show($vars)
     {
         $id = (int)$vars['id'];
-                
-        $artist = Artist::where('artist_id', $id)
-                        ->get()
-                        ->first()
-                        ->toArray();
+
+        $artist = Artist::find($id);
         
         $age = Dates::age($artist['dob']);
-
-        $artist['age'] = $age;
-
+        $artist['age'] = $age;                   
+        
+        $albums = $artist->albums()
+                         ->with('label')
+                         ->orderByDesc('rel_date')
+                         ->get()
+                         ->toArray();
+        
+        echo '<pre>';
+        // print_r($albums);
+        echo'</pre>';
+        
         if (!$artist) {
             View::make('errors/404');
             return;
         }
-        return View::make('artist/show', ['artist' => $artist]);
+        return View::make('artist/show', [
+            'artist' => $artist,
+            'albums' => $albums,
+        ]);
+    }
+
+    public function view($vars)
+    {
+        $id = 6;
+
+        $artist = Artist::find($id);
+        $albums = $artist->albums()->with('label')->get();
+        $squads = $artist->squads->toArray();
+
+        echo '<pre>';
+        print_r($squads);
+        echo'</pre>';
+        
     }
 
     /*
-    public function view($vars)
-    {
-        //
-
-    }
-
     public function create()
     {
         // Display a form to create a new artist
