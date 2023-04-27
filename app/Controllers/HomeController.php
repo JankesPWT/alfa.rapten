@@ -12,4 +12,14 @@ class HomeController
     {
         View::make('index');
     }
+    public function jeden($vars)
+    {
+        echo '1';
+    }
+    public function dwa($vars)
+    {
+        echo '2';
+    }
+
+    
 }
