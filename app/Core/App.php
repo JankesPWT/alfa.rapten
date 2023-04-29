@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Core;
 
 use App\Core\Config;
-use App\Core\DB;
 use App\Core\Request;
 use App\Exceptions\RouteNotFoundException;
 use Dotenv\Dotenv;
@@ -20,7 +19,6 @@ class App
     private Request $request;
     private Response $response;
     protected Config $config;
-    public static DB $db;
     protected $router;
 
     public function __construct($router)
@@ -30,11 +28,6 @@ class App
         $this->response = new Response();
     }
 
-    // public static function db(): DB
-    // {
-    //     return static::$db;
-    // }
-    
     public function initDb(array $config)
     {
         $capsule = new Capsule();
