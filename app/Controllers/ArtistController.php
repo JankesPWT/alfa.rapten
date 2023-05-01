@@ -10,6 +10,8 @@ use App\Models\Album;
 use App\Models\Squad;
 use App\Models\Label;
 use App\Helpers\Dates;
+use Illuminate\Database\Capsule\Manager as DB;
+
 
 class ArtistController
 {
@@ -36,6 +38,10 @@ class ArtistController
                          ->orderByDesc('rel_date')
                          ->get()
                          ->toArray();
+
+        $withSquads = Artist::getArtistAlbumsWithSquads($id);
+        
+        $feats = Artist::getArtistFeats($id);
         
         echo '<pre>';
         // print_r($albums);
@@ -48,21 +54,23 @@ class ArtistController
         return View::make('artist/show', [
             'artist' => $artist,
             'albums' => $albums,
+            'withSquads' => $withSquads,
+            'feats' =>$feats,
         ]);
     }
 
     public function view($vars)
     {
-        $id = 6;
+        $id = 34;
 
         $artist = Artist::find($id);
-        $albums = $artist->albums()->with('label')->get();
-        $squads = $artist->squads->toArray();
 
+        $feats = Artist::getArtistFeats($id);
+
+           
         echo '<pre>';
-        print_r($squads);
+        print_r($feats);
         echo'</pre>';
-        
     }
 
     /*

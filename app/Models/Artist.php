@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Capsule\Manager as DB;
+
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Collection;
@@ -57,5 +59,51 @@ class Artist extends Model
                      ->albums
                      ->where('typ', 'mixtape')
                      ->toArray();
+    }
+
+    public static function getArtistAlbumsWithSquads(int $id)
+    {
+        return DB::table('album as p')
+                 ->select('p.*', 'sq.nazwa as squad', 'l.nazwa as label')
+                 ->leftJoin('squad as sq', 'sq.squad_id', '=', 'p.squad_id')
+                 ->leftJoin('label as l', 'l.label_id', '=', 'p.label_id')
+                 ->whereIn('p.squad_id', function($query) use ($id) {
+                    $query->select('asq.squad_id')
+                        ->from('art_squad as asq')
+                        ->where('asq.artist_id', '=', $id);
+                 })
+                 ->orderBy('p.rel_date', 'DESC')
+                 ->get();
+    }
+
+
+    public static function getArtistFeats(int $id)
+    {
+        return DB::table('feat')
+                    ->select([
+                        'artist.artist_id',
+                        'artist.ksywa AS albumartist',
+                        'squad.squad_id',
+                        'squad.nazwa',
+                        'album.album_id',
+                        'album.tytul AS albumtytul',
+                        'album.image',
+                        'song.song_id',
+                        'song.nr',
+                        'song.tytul AS songtytul',
+                        'artist2.ksywa'
+                    ])
+                    ->leftJoin('song', 'song.song_id', '=', 'feat.song_id')
+                    ->leftJoin('artist', 'artist.artist_id', '=', 'feat.artist_id')
+                    ->leftJoin('album', 'album.album_id', '=', 'song.album_id')
+                    ->leftJoin('artist as artist2', 'artist2.artist_id', '=', 'album.artist_id')
+                    ->leftJoin('squad', 'squad.squad_id', '=', 'album.squad_id')
+                    ->where('feat.feat_prod', '=', 1)
+                    ->where('album.typ', '<>', 'składanka')
+                    ->where('feat.artist_id', '=', $id)
+                    ->orderBy('album.rel_date', 'desc')
+                    ->orderBy('song.cd', 'asc')
+                    ->orderBy('song.nr', 'asc')
+                    ->get();
     }
 }

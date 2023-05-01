@@ -92,9 +92,9 @@
 
 <!-- DISCOGRAPHY -->
 <div id="discography">
+    
+    <!-- solo -->
     {% if albums is not empty %}
-        
-        <!-- solo -->
         <div class="type solo">Albumy
             <a class="toggle_solo">+/-</a>
         </div>
@@ -104,15 +104,15 @@
                 <div class="show-discography">
                     <div class="show-discography-img">
                         <a href="/album/{{ album.album_id }}">
-                            <img src="http://pwtsoftware/beta.rapten/rapten/images/album/thumbs/5_128.jpg" width="75" alt="Stereo-(I)-Typ">
+                            <img src="http://pwtsoftware/beta.rapten/rapten/images/album/thumbs/5_128.jpg" width="75" alt="{{ album.tytul }}">
                         </a>
                     </div>
                     <div class="show-discography-text">
                         <a href="/album/{{ album.album_id }}"> {{ album.tytul }} </a>
                         <span class="show-discography-data">{{ album.rel_date }}</span>
-                        {% if album.label is not empty %}
+                        {# {% if album.label is not empty %} #}
                             <a class="show-discography-data" href="/label/{{ album.label.label_id }}">{{ album.label.nazwa }}</a>
-                        {% endif %}
+                        {# {% endif %} #}
                         <br>
                         <span class="show-discography-typ">[{{ album.typ }}]</span>
                     </div>
@@ -122,53 +122,66 @@
     {% endif %}
     
 
+    <!-- withSquads -->
+    {% if withSquads is not empty %}
+        <div class="type squad">Albumy ze składami
+            <a class="toggle_solo">+/-</a>
+        </div>
 
-    <div class="type squad">
-        Albumy ze składami
-        <a class="toggle_solo">+/-</a>
-    </div>
-    <div class="togglediv_squad">
-        <div class="show-discography">
-            <div class="show-discography-img">
-                <a href="/album/show/id/2/">
-                    <img src="http://pwtsoftware/beta.rapten/rapten/images/album/thumbs/2_128.jpg" width="75" alt="PodPierdolone Hity">
-                </a>
-            </div>
-            <div class="show-discography-text">
-                <a href="/squad//show/id/1/">PWT Banda</a> - 
-                <a href="/album/show/id/2/">PodPierdolone Hity</a>
-                <span class="show-discography-data">2012-02-16</span>
-                <a class="show-discography-data" href="/label/show/id/6/">Prosto-W-Twarz Records</a>
-                <br>
-                <span class="show-discography-typ">[mixtape]</span>
-            </div>
+        <div class="togglediv_squad">
+            {% for album in withSquads %}
+                <div class="show-discography">
+                    <div class="show-discography-img">
+                        <a href="/album/{{ album.album_id }}">
+                            <img src="http://pwtsoftware/beta.rapten/rapten/images/album/thumbs/2_128.jpg" width="75" alt="{{ album.tytul }}">
+                        </a>
+                    </div>
+                    <div class="show-discography-text">
+                        <a href="/squad/{{ album.squad_id }}">{{ album.squad }}</a> - 
+                        <a href="/album/{{ album.album_id }}">{{ album.tytul }}</a>
+                        <span class="show-discography-data">{{ album.rel_date }}</span>
+                        <a class="show-discography-data" href="/label/{{ album.label_id }}">{{ album.label }}</a>
+                        <br>
+                        <span class="show-discography-typ">{{ album.typ }}</span>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
-    </div>
-    <div class="type feat">Featuringi
-        <a class="toggle_feat">+/-</a>
-    </div>
-    <div class="togglediv_feat">
-        <div class="show-discography">
-            <div class="show-discography-img">
-                <a href="/album/show/id/320/">
-                    <img src="http://pwtsoftware/beta.rapten/rapten/images/album/thumbs/320_128.jpg" width="75" alt="Rymy Spod Kapelusza">
-                </a>
-            </div>
-            <div class="show-discography-text">
-                <a href="/squad//show/id/108/">Piździ Basem</a> - 
-                <a href="/album/show/id/320/">Rymy Spod Kapelusza</a>
-                <br>
-                <a class="show-discography-tytul" href="/song/show/id/1679/">4 - Przekaz Pojebanych Myśli</a> (Ft. <a href="/artist/show/id/1/">Jankes</a>)
-                <br>
-                <a class="show-discography-tytul" href="/song/show/id/1683/">8 - Rozkminkowe Pierdolnięcie</a> (Ft. <a href="/artist/show/id/1/">Jankes</a>)
-                <br>
-                <a class="show-discography-tytul" href="/song/show/id/1686/">11 - Z Przedmieścia Syndkob</a> (Ft. <a href="/artist/show/id/1/">Jankes</a>)
-            </div>
+    {% endif %}
+
+    {% if feats is not empty %}
+        <div class="type feat">Featuringi
+            <a class="toggle_feat">+/-</a>
         </div>
-    </div>
+
+        <div class="togglediv_feat">
+        {% for feat in feats %}
+
+            <div class="show-discography">
+                <div class="show-discography-img">
+                    <a href="/album/{{ feat.album_id }}">
+                        <img src="http://pwtsoftware/beta.rapten/rapten/images/album/thumbs/320_128.jpg" width="75" alt="{{ feat.albumtytul }}">
+                    </a>
+                </div>
+                <div class="show-discography-text">
+                    <a href="/squad//show/id/108/">Piździ Basem</a> - 
+                    <a href="/album/show/id/320/">Rymy Spod Kapelusza</a>
+                    <br>
+                    <a class="show-discography-tytul" href="/song/show/id/1679/">4 - Przekaz Pojebanych Myśli</a> (Ft. <a href="/artist/show/id/1/">Jankes</a>)
+                    <br>
+                    <a class="show-discography-tytul" href="/song/show/id/1683/">8 - Rozkminkowe Pierdolnięcie</a> (Ft. <a href="/artist/show/id/1/">Jankes</a>)
+                    <br>
+                    <a class="show-discography-tytul" href="/song/show/id/1686/">11 - Z Przedmieścia Syndkob</a> (Ft. <a href="/artist/show/id/1/">Jankes</a>)
+                </div>
+            </div>
+
+            {% endfor %}
+        </div>
+    {% endif %}
+    
 </div>
 
-<script>/*
+<script>
     $(".solo").click(function () {
         $(".togglediv_solo").toggle("slow");
     });
@@ -186,7 +199,7 @@
     });
     $(".label").click(function () {
         $(".togglediv_label").toggle("slow");
-    });*/
+    });
 </script>
 
 {% endblock %}
