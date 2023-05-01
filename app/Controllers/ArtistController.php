@@ -11,6 +11,7 @@ use App\Models\Squad;
 use App\Models\Label;
 use App\Helpers\Dates;
 use Illuminate\Database\Capsule\Manager as DB;
+use Formr\Formr;
 
 
 class ArtistController
@@ -73,13 +74,17 @@ class ArtistController
         echo'</pre>';
     }
 
-    /*
+    
     public function create()
     {
+        $form = new Formr();
+        
+        
         // Display a form to create a new artist
-        View::make('artists/create.php');
+        return View::make('artist/create', ['form' => $form]);
     }
-
+    
+    /*
     public function store()
     {
         // Handle a POST request to create a new artist
