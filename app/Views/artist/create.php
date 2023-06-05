@@ -4,8 +4,17 @@
 
 {% block main %}
 <div class="index">
-    {{ form.create_form('Name, Email, Comments|textarea') }}
+    {# {{ dump(fields.ksywaFields) }} #}
+    
+    {{ form.form_open }}
+    
+    {{ form.text(fields.ksywaFields) }}
+
+    {{ form.text(fields.imieFields) }}
+    {{ form.text(fields.nazwiskoFields) }}
+    
+    {{ form.submit_button("Dodaj wykonawcę") }}
+    {{ form.close }}
+
 </div>
 {% endblock %}
-
-

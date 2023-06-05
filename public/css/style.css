@@ -835,34 +835,39 @@ a.show-coll-chce:hover {
 /* Inputy */
 input[type="text"],
 input[type="password"],
-input[type="email"] {
+input[type="email"],
+textarea {
 	background-color: #FFF;
-	color: #aaa;
+	color: #666;
 	border-width: 1px;
 	border-style: solid;
 	border-color: #aaa;
 	border-radius: 0px;
 	box-shadow: 0 5px 18px -5px #888;
     padding: 10px;
-    margin: 10px 0 0;
+    margin: 10px 0 10px;
     text-align: center;
     font-size: 25px;
+    display: block;
 }
 input[type="text"]:focus,
 input[type="password"]:focus, 
 input[type="email"]:focus {
 	background-repeat: repeat;
 	background-color: #FFF;
-	color: #ccc;
+	color: #222;
 	border-width: 1px;
 	border-style: solid;
 	border-color: #aaa;
 	border-radius: 4px;
 	box-shadow: 0 0 8px -3px #888;
 }
+form label {
+    margin-top: 1%;
+}
 	
 /* button więcej i submit*/
-.more-button, input[type="submit"] {
+.more-button, input[type="submit"], button {
 	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #40B3DF), color-stop(1, #40B3DF) );
 	background:-moz-linear-gradient( center top, #40B3DF 5%, #40B3DF 100% );
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#40B3DF', endColorstr='#40B3DF');

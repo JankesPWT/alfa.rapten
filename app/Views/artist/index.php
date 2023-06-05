@@ -10,7 +10,7 @@
         <div class="index-pos">
             <a href="/artist/{{artist.artist_id}}" name="{{artist.ksywa}}">
             {% if artist.image == 1 %}
-                <img src="http://pwtsoftware/beta.rapten/rapten/images/artist/thumbs/1270.jpg" alt="Igoronco">
+                <img src="http://pwtsoftware/beta.rapten/rapten/images/artist/thumbs/1270.jpg" alt="{{artist.ksywa}}">
             {% else %}
                 <img src="/images/icons/artist.png" alt="{{artist.ksywa}}" name="{{artist.ksywa}}">
             {% endif %}
@@ -20,7 +20,7 @@
     {% endfor %}
 
     <div class="index-legend">Mamy 5756 artystów w bazie. 
-        <a class="dodaj" href="/artist/add/">Dodaj nowego...</a>
+        <a class="dodaj" href="/artist/create">Dodaj nowego...</a>
     </div>
 </div>
 {% endblock %}
