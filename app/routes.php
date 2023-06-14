@@ -10,6 +10,10 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     $r->get('/artist', [ArtistController::class, 'index']);
     $r->get('/artist/{id:\d+}', [ArtistController::class, 'show']); // {id} must be a number (\d+)
     $r->get('/artist/create', [ArtistController::class, 'create']);
+    $r->post('/artist/create', [ArtistController::class, 'store']);
+
+    //$r->get('/artist/adding', [ArtistController::class, 'redirection']);
+
     
     $r->get('/artista/{id:\d+}', [ArtistController::class, 'view']);
     $r->get('/artista/{id:\d+}/get', [HomeController::class, 'dwa']);

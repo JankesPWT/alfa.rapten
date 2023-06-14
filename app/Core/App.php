@@ -6,6 +6,7 @@ namespace App\Core;
 
 use App\Core\Config;
 use App\Core\Request;
+use App\Core\Response;
 use App\Exceptions\RouteNotFoundException;
 use Dotenv\Dotenv;
 use FastRoute;
@@ -18,6 +19,7 @@ class App
 {
     private Request $request;
     private Response $response;
+    protected Session $session;
     protected Config $config;
     protected $router;
 
@@ -26,6 +28,7 @@ class App
         $this->router = $router;
         $this->request = new Request();
         $this->response = new Response();
+        $this->session = new Session();
     }
 
     public function initDb(array $config)
@@ -57,6 +60,7 @@ class App
 
     public function run()
     {
+        $this->session->start();
         $method = $this->request->getMethod();
         $uri = $this->request->getUrl();
 
@@ -66,7 +70,7 @@ class App
             $handler = $router[1];
             $params = $router[2];
 
-            $controller = new $handler[0];
+            $controller = new $handler[0]($this->request, $this->response, $this->session);
             $action = $handler[1];
             echo $controller->$action($params);
 
