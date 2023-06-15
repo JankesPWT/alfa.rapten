@@ -42,6 +42,8 @@ class Artist extends Model
         'data_dod' => 'datetime:Y-m-d H:m:s',
         'datownik' => 'datetime:Y-m-d H:m:s',
     ];
+    
+    protected $fillable = ['ksywa', 'imie', 'nazwisko', 'miasto', 'dob', 'aka', 'strona', 'facebook', 'youtube', 'image', 'bio'];
 
     public function squads(): BelongsToMany
     {
