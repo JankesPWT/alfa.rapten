@@ -4,14 +4,11 @@ declare(strict_types=1);
 
 namespace App\Core;
 
-use Formr\Formr;
-
 class Controller 
 {
-    protected Response $response;
-    protected Request $request;
-    protected Session $session;
-    protected Formr $form;
+    public Response $response;
+    public Request $request;
+    public Session $session; 
     public function __construct(Request $request, Response $response, Session $session)
     {
         $this->request = $request;

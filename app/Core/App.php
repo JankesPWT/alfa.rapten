@@ -17,9 +17,9 @@ use Illuminate\Events\Dispatcher;
 
 class App
 {
-    private Request $request;
-    private Response $response;
-    protected Session $session;
+    public Request $request;
+    public Response $response;
+    public Session $session;
     protected Config $config;
     protected $router;
 
