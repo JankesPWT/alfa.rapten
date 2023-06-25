@@ -832,10 +832,20 @@ a.show-coll-chce:hover {
     color: #999;
     font-style: italic;
 }
+
 /* Inputy */
+.form-fields {
+    text-align: center;
+    width: 75%;
+    margin-left: 11%;
+}
+
 input[type="text"],
 input[type="password"],
 input[type="email"],
+input[type="file"],
+input[type="url"],
+select,
 textarea {
 	background-color: #FFF;
 	color: #666;
@@ -848,11 +858,17 @@ textarea {
     margin: 10px 0 10px;
     text-align: center;
     font-size: 25px;
-    display: block;
+    /* display: block;  to żeby hinty się wyświetlały*/
+    display: inline-block;
+    width: 96%;
 }
+
 input[type="text"]:focus,
 input[type="password"]:focus, 
-input[type="email"]:focus {
+input[type="email"]:focus,
+input[type="file"]:focus,
+input[type="url"]:focus,
+select:focus {
 	background-repeat: repeat;
 	background-color: #FFF;
 	color: #222;
@@ -863,8 +879,49 @@ input[type="email"]:focus {
 	box-shadow: 0 0 8px -3px #888;
 }
 form label {
-    margin-top: 1%;
+    margin-top: 2%;
+    text-align: left;
+    display: none;
 }
+.form-fields select {
+    display: inline-block;
+    width: 31%;
+}
+
+textarea {
+    width: 96%;
+}
+
+/* Tooltip container */
+/* https://www.w3schools.com/css/css_tooltip.asp */
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+  }
+  
+  /* Tooltip text */
+  .tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 5px;
+    border-radius: 6px;
+   
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    z-index: 1;
+
+    top: -5px;
+    left: 150%;
+  }
+  
+  /* Show the tooltip text when you mouse over the tooltip container */
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+  }
 	
 /* button więcej i submit*/
 .more-button, input[type="submit"], button {
@@ -915,6 +972,15 @@ form label {
 
 [class*="col-"] {
     float: left;
-    padding: 15px;
+    padding: 1%;
     border: 1px solid red;
   }
+
+.error {
+    width: 94%;
+    background-color: #f8d7da;
+    color: #721c24;
+    border-color: #f5c6cb;
+    margin: 0% 0% 0% 2% ;
+    padding: 1%;
+}

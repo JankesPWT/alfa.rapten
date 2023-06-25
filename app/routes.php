@@ -12,7 +12,7 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     $r->get('/artist/create', [ArtistController::class, 'create']);
     $r->post('/artist/create', [ArtistController::class, 'store']);
 
-    //$r->get('/artist/adding', [ArtistController::class, 'redirection']);
+    $r->get('/artist/adding', [ArtistController::class, 'view']);
 
     
     $r->get('/artista/{id:\d+}', [ArtistController::class, 'view']);
