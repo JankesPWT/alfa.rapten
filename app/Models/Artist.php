@@ -21,7 +21,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property string        $aka
  * @property string        $strona
  * @property string        $facebook
+ * @property string        $instagram
  * @property string        $youtube
+ * @property string        $spotify
  * @property int           $image
  * @property int           $status
  * @property Carbon        $data_dod
@@ -43,7 +45,7 @@ class Artist extends Model
         'datownik' => 'datetime:Y-m-d H:m:s',
     ];
     
-    protected $fillable = ['ksywa', 'imie', 'nazwisko', 'miasto', 'dob', 'aka', 'strona', 'facebook', 'youtube', 'image', 'bio'];
+    protected $fillable = ['ksywa', 'imie', 'nazwisko', 'miasto', 'dob', 'aka', 'strona', 'facebook', 'instagram', 'youtube', 'spotify', 'image', 'bio'];
 
     public function squads(): BelongsToMany
     {
