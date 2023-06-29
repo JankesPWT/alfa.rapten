@@ -133,6 +133,9 @@ class ArtistController extends Controller
                 $errors['strona'] = 'Nieprawidłowy adres';
             }
 
+            $date = Dates::dateFormatter((int)$data['rok'], (int)$data['miesiac'], (int)$data['dzien']);
+            $data['dob'] = $date;
+
             if (! $errors) {
                 $this->session->set('data', $data); //to be deleted
                 $this->response->redirect('/artist/create');
@@ -144,7 +147,7 @@ class ArtistController extends Controller
                 $artist->imie = $data['imie'];
                 $artist->nazwisko = $data['nazwisko'];
                 $artist->miasto = $data['miasto'];
-                //$artist->dob = $data['dob'];
+                $artist->dob = $data['dob'];
                 $artist->aka = $data['aka'];
                 $artist->strona = $data['strona'];
                 $artist->facebook = $data['facebook'];
@@ -152,10 +155,10 @@ class ArtistController extends Controller
                 $artist->youtube = $data['youtube'];
                 //$artist->image = $data['image'];
                 $artist->bio = $data['bio'];
-                $artist->save();
+                //$artist->save();
 
                 // Redirect to the newly created artist's page
-                $this->response->redirect('/artist/'. $artist->artist_id);
+                //$this->response->redirect('/artist/'. $artist->artist_id);
             } else {
                 $this->session->set('data', $data);
                 $this->session->set('errors', $errors);

@@ -37,7 +37,7 @@
             <label for="dob">Data urodzenia</label>
             <div>
             <select name="rok">
-                <option value="">rok</option>
+                <option value="0">rok</option>
                 {% for year in ("now"|date_modify("+5 years")|date("Y"))..1940 %}
                     {% set selected = (year == fields.rok) ? 'selected' : '' %}
                     <option value="{{ year }}" {{ selected }}>{{ year }}</option>
@@ -45,8 +45,8 @@
             </select>
             
             <select name="miesiac">
-                <option value="">miesiąc</option>
-                <option value="">nie wiem</option>
+                <option value="0">miesiąc</option>
+                <option value="0">nie wiem</option>
                 {% for month in 1..12 %}
                     {% set selected = (month == fields.miesiac) ? 'selected' : '' %}
                     <option value="{{ month }}" {{ selected }}>{{ month }}</option>
@@ -54,8 +54,8 @@
             </select>
 
             <select name="dzien">
-                <option value="">dzień</option>
-                <option value="">nie wiem</option>
+                <option value="0">dzień</option>
+                <option value="0">nie wiem</option>
                 {% for day in 1..31 %}
                     {% set selected = (day == fields.dzien) ? 'selected' : '' %}
                     <option value="{{ day }}" {{ selected }}>{{ day }}</option>
