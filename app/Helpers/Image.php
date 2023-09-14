@@ -44,6 +44,15 @@ class Image
         return $newFilePath =  STORAGE_PATH . '/' . $this->model . '/' . $this->id . ".jpg";
     }
 
+    public function getThumbsPath($width)
+    {
+        if ($width === 200) {
+            return STORAGE_PATH . '/' . $this->model . '/thumbs/' . $this->id . ".jpg";
+        } else {
+            return STORAGE_PATH . '/' . $this->model . '/thumbs/' . $this->id . "_" . $width . ".jpg";
+        }
+    }
+
     // walidacja typu i rozmiaru zdjecia
     public function validation()
     {
@@ -64,6 +73,23 @@ class Image
             $this->errors['image_other'] = 'Coś nie zagrało, ale sami nie wiemy co...';
             return false;
         }
+
+        return true;
+    }
+    
+    public function afterInputImageHandler($id)
+    {
+        $this->move();
+        $this->setId($id);
+        $this->konwersja();
+
+        $src = $this->getNewFilePath();
+        $dst = $this->getThumbsPath(200);
+        
+        $this->createThumbnail($src, $dst, 200 );
+        
+        $dst = $this->getThumbsPath(128);
+        $this->createThumbnail($src, $dst, 128 );
 
         return true;
     }
