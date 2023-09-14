@@ -8,6 +8,7 @@ use App\Core\Controller;
 use App\Core\View;
 use App\Models\Artist;
 use App\Helpers\Dates;
+use App\Helpers\Image;
 use Illuminate\Database\Capsule\Manager as DB;
 use Respect\Validation\Validator as V;
 
@@ -116,7 +117,6 @@ class ArtistController extends Controller
             $errors = [];
 
             //TODO walidacja youtube, instagrama
-            //TODO zmiana daty urodzenia na raptenową
             //TODO ZDJĘCIE
             $artysta = Artist::where('ksywa', $data['ksywa'])->count();
             if ($artysta === 1) {
@@ -132,6 +132,14 @@ class ArtistController extends Controller
             if ( ! empty($data['strona']) && ! V::url()->validate($data['strona'])) {
                 $errors['strona'] = 'Nieprawidłowy adres';
             }
+            if ( ! empty($_FILES['image'])) {
+                $file = new Image($_FILES, 'artist');
+                if (!$file->validation()) {
+                    $errors += $file->errors;
+                } else {
+                    $data['image'] = 1;
+                }
+            }
 
             $date = Dates::dateFormatter((int)$data['rok'], (int)$data['miesiac'], (int)$data['dzien']);
             $data['dob'] = $date;
@@ -140,8 +148,7 @@ class ArtistController extends Controller
                 $this->session->set('data', $data); //to be deleted
                 $this->response->redirect('/artist/create');
 
-                //TODO db input
-
+                //db input
                 $artist = new Artist();
                 $artist->ksywa = $data['ksywa'];
                 $artist->imie = $data['imie'];
@@ -153,12 +160,15 @@ class ArtistController extends Controller
                 $artist->facebook = $data['facebook'];
                 $artist->instagram = $data['instagram'];
                 $artist->youtube = $data['youtube'];
-                //$artist->image = $data['image'];
+                $artist->image = $data['image'];
                 $artist->bio = $data['bio'];
-                //$artist->save();
+                $artist->save();
+                
+                //konwersja i/lub zmiana nazwy obrazka na $artist->artist_id 
+                $file->afterInputImageHandler($artist->artist_id);
 
                 // Redirect to the newly created artist's page
-                //$this->response->redirect('/artist/'. $artist->artist_id);
+                $this->response->redirect('/artist/'. $artist->artist_id);
             } else {
                 $this->session->set('data', $data);
                 $this->session->set('errors', $errors);

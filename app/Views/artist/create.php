@@ -87,13 +87,20 @@
             <label for="youtube">YouTube</label>
             <input type="text" name="youtube" value="{{fields.youtube}}" minlength="2" maxlength="50" placeholder="YouTube" value=""/>
 
-            <label for="files" class="btn">Select Image</label>
-
             <label for="image">Zdjęcie</label>
-            <input type="file" name="image" id="image" accept=".jpg, .jpeg, .png, .gif" title="zdjecie" />
+            <input type="file" name="image" id="image" accept=".jpg, .jpeg, .png, .gif" />
             <span class="tooltip">?
                 <span class="tooltiptext">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span>
             </span>
+            {% if errors.image_format is not empty %}
+            <div class="error">{{ errors.image_format }}</div>
+            {% endif %}
+            {% if errors.image_size is not empty %}
+            <div class="error">{{ errors.image_size }}</div>
+            {% endif %}
+            {% if errors.image_other is not empty %}
+            <div class="error">{{ errors.image_other }}</div>
+            {% endif %}
             
             <input type="hidden" name="MAX_FILE_SIZE" value="512000" />
             
