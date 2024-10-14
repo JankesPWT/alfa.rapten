@@ -21,7 +21,7 @@ class ArtistController extends Controller
         $artists = Artist::get()
             ->take(30);
 
-        return View::make("artist/index", ['artists' => $artists]);
+        return View::make("artist/index", ['artists' => $artists, 'images' => STORAGE_PATH,]);
     }
 
     public function show($vars)

@@ -7,10 +7,11 @@
     <?php //include_once("../app/views/components/alpha.php"); ?>
     
     {% for artist in artists %}
+    {{ STORAGE_PATH }}
         <div class="index-pos">
             <a href="/artist/{{artist.artist_id}}" name="{{artist.ksywa}}">
             {% if artist.image == 1 %}
-                <img src="http://pwtsoftware/beta.rapten/rapten/images/artist/thumbs/1270.jpg" alt="{{artist.ksywa}}">
+                <img src="{{images}}/artist/thumbs/{{artist.artist_id}}.jpg" alt="{{artist.ksywa}}">
             {% else %}
                 <img src="/images/icons/artist.png" alt="{{artist.ksywa}}" name="{{artist.ksywa}}">
             {% endif %}
